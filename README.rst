@@ -61,39 +61,31 @@ Or the following command to update an existing version:
 Usage Example
 =============
 
-```python
-import board
-from cedargrove_nau7802 import NAU7802
+.. code-block:: py
 
-# Instantiate NAU7802 ADC
-nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=2)
-```
+    import board
+    from cedargrove_nau7802 import NAU7802
 
-Other examples can be found in the `examples` folder.
+    # Instantiate NAU7802 ADC
+    nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=2)
 
-.. todo:: other examples should live in the
-examples folder and be included in docs/examples.rst.
+Other examples can be found in the ``examples`` folder.
+
+.. todo:: other examples should live in the ``examples folder`` and be included in docs/examples.rst.
 
 Documentation
 =============
-API documentation for this library can be found on [NAU7802 CircuitPython Driver: Class Description](https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/docs/pseudo%20readthedocs%20cedargrove_nau7802.pdf)
-
-<a href="https://oshpark.com/shared_projects/qFvEU3Bn"><img src="https://oshpark.com/packs/media/images/badge-5f4e3bf4bf68f72ff88bd92e0089e9cf.png" alt="Order from OSH Park"></img></a>
-
-NAU7802 FeatherWing  16-DIP (THT) Version:
-
-<a href="https://oshpark.com/shared_projects/ZfryHYnc"><img src="https://oshpark.com/packs/media/images/badge-5f4e3bf4bf68f72ff88bd92e0089e9cf.png" alt="Order from OSH Park"></img></a>
+`NAU7802 CircuitPython Driver API Class Description <https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/docs/pseudo%20readthedocs%20cedargrove_nau7802.pdf>`_
 
 
-![NAU7802 FeatherWing](https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/glamor_shot.jpeg)
+`CedarGrove NAU7802 FeatherWing OSH Park Project (16-SOIC version) <https://oshpark.com/shared_projects/qFvEU3Bn>`_
+`CedarGrove NAU7802 FeatherWing OSH Park Project (16-DIP version) <https://oshpark.com/shared_projects/ZfryHYnc>`_
 
-![NAU7802 FeatherWing pinout](https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/docs/NAU7802_pinout_wht_lores.png)
+.. image:: https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/glamor_shot.jpeg
 
-![NAU7802 cable pinout](https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/docs/NAU7802_pinout_wht_p2.png)
+.. image:: https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/Clue_Scale_2020-11-25_trim.png
 
-![Clue_Scale](https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/Clue_Scale_2020-11-25_trim.png)
-
-Needing a calibration weight? The U.S. Mint coin specifications might have some information that could help -- if you have some spare change. https://www.usmint.gov/learn/coin-and-medal-programs/coin-specifications
+Needing a calibration weight? The `U.S. Mint coin specifications <https://github.com/CedarGroveStudios/Cedargrove_CircuitPython_NAU7802/blob/HEAD/CODE_OF_CONDUCT.md>`_ might have some information that could help -- if you have some spare change.
 
 
 Contributing
@@ -101,4 +93,4 @@ Contributing
 
 Contributions are welcome! Please read our `Code of Conduct
 <https://github.com/CedarGroveStudios/Cedargrove_CircuitPython_NAU7802/blob/HEAD/CODE_OF_CONDUCT.md>`_
-before contributing to help this project stay welcoming.
+before contributing to help this project be welcoming to everyone.
