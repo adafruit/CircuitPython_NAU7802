@@ -48,18 +48,18 @@ __version__ = "0.0.0-auto.0"
 __repo__ = "https://github.com/CedarGroveStudios/Cedargrove_CircuitPython_NAU7802.git"
 
 # DEVICE REGISTER MAP
-_PU_CTRL = 0x00  # Power-Up Control              RW
-_CTRL1 = 0x01  # Control 1                     RW
-_CTRL2 = 0x02  # Control 2                     RW
-_ADCO_B2 = 0x12  # ADC_OUT[23:16]                R-
-_ADCO_B1 = 0x13  # ADC_OUT[16: 8]                R-
-_ADCO_B0 = 0x14  # ADC_OUT[ 7: 0]                R-
-_OTP_B1 = 0x15  # OTP[15: 8]                    R-
-_ADC = 0x15  # ADC Control                   -W
-_OTP_B0 = 0x16  # OTP[ 7: 0]                    R-
-_PGA = 0x1B  # Programmable Gain Amplifier   RW
-_PWR_CTRL = 0x1C  # Power Control                 RW
-_REV_ID = 0x1F  # Chip Revision ID              R-
+_PU_CTRL = 0x00  # Power-Up Control RW
+_CTRL1 = 0x01  # Control 1 RW
+_CTRL2 = 0x02  # Control 2 RW
+_ADCO_B2 = 0x12  # ADC_OUT[23:16] R-
+_ADCO_B1 = 0x13  # ADC_OUT[16: 8] R-
+_ADCO_B0 = 0x14  # ADC_OUT[ 7: 0] R-
+_OTP_B1 = 0x15  # OTP[15: 8] R-
+_ADC = 0x15  # ADC Control -W
+_OTP_B0 = 0x16  # OTP[ 7: 0] R-
+_PGA = 0x1B  # Programmable Gain Amplifier  RW
+_PWR_CTRL = 0x1C  # Power Control  RW
+_REV_ID = 0x1F  # Chip Revision ID  R-
 
 # pylint: disable=too-few-public-methods
 class LDOVoltage:
@@ -86,10 +86,10 @@ class Gain:
 class ConversionRate:
     """ADC conversion rate settings."""
 
-    RATE_10SPS = 0x0  #  10 samples/sec; _CTRL2[6:4] = 0 (chip default)
-    RATE_20SPS = 0x1  #  20 samples/sec; _CTRL2[6:4] = 1
-    RATE_40SPS = 0x2  #  40 samples/sec; _CTRL2[6:4] = 2
-    RATE_80SPS = 0x3  #  80 samples/sec; _CTRL2[6:4] = 3
+    RATE_10SPS = 0x0  # 10 samples/sec; _CTRL2[6:4] = 0 (chip default)
+    RATE_20SPS = 0x1  # 20 samples/sec; _CTRL2[6:4] = 1
+    RATE_40SPS = 0x2  # 40 samples/sec; _CTRL2[6:4] = 2
+    RATE_80SPS = 0x3  # 80 samples/sec; _CTRL2[6:4] = 3
     RATE_320SPS = 0x7  # 320 samples/sec; _CTRL2[6:4] = 7
 
 
@@ -130,65 +130,48 @@ class NAU7802:
         self._adc_out = None  # Initialize for later use
 
     # DEFINE I2C DEVICE BITS, NYBBLES, BYTES, AND REGISTERS
-    _rev_id = ROBits(
-        4, _REV_ID, 0, 1, False
-    )  # Chip Revision                         R-
-    _pu_reg_reset = RWBit(
-        _PU_CTRL, 0, 1, False
-    )  # Register Reset                  (RR)  RW
-    _pu_digital = RWBit(
-        _PU_CTRL, 1, 1, False
-    )  # Power-Up Digital Circuit        (PUD) RW
-    _pu_analog = RWBit(
-        _PU_CTRL, 2, 1, False
-    )  # Power-Up Analog Circuit         (PUA) RW
-    _pu_ready = ROBit(_PU_CTRL, 3, 1, False)  # Power-Up Ready Status           (PUR) R-
-    _pu_cycle_start = RWBit(
-        _PU_CTRL, 4, 1, False
-    )  # Power-Up Conversion Cycle Start  (CS) RW
-    _pu_cycle_ready = ROBit(
-        _PU_CTRL, 5, 1, False
-    )  # Power-Up Cycle Ready             (CR) R-
-    _pu_ldo_source = RWBit(
-        _PU_CTRL, 7, 1, False
-    )  # Power-Up AVDD Source           (ADDS) RW
-    _c1_gains = RWBits(
-        3, _CTRL1, 0, 1, False
-    )  # Control_1 Gain                (GAINS) RW
-    _c1_vldo_volts = RWBits(
-        3, _CTRL1, 3, 1, False
-    )  # Control_1 LDO Voltage          (VLDO) RW
-    _c2_cal_mode = RWBits(
-        2, _CTRL2, 0, 1, False
-    )  # Control_2 Calibration Mode   (CALMOD) RW
-    _c2_cal_start = RWBit(
-        _CTRL2, 2, 1, False
-    )  # Control_2 Calibration Start    (CALS) RW
-    _c2_cal_error = RWBit(
-        _CTRL2, 3, 1, False
-    )  # Control_2 Calibration Error (CAL_ERR) RW
-    _c2_conv_rate = RWBits(
-        3, _CTRL2, 4, 1, False
-    )  # Control_2 Conversion Rate       (CRS) RW
-    _c2_chan_select = RWBit(
-        _CTRL2, 7, 1, False
-    )  # Control_2 Channel Select        (CHS) RW
-    _adc_out_2 = ROUnaryStruct(
-        _ADCO_B2, ">B"
-    )  # ADC Result Output              MSByte R-
-    _adc_out_1 = ROUnaryStruct(
-        _ADCO_B1, ">B"
-    )  # ADC Result Output            MidSByte R-
-    _adc_out_0 = ROUnaryStruct(
-        _ADCO_B0, ">B"
-    )  # ADC Result Output              LSByte R-
-    _adc_chop_clock = RWBits(
-        2, _ADC, 4, 1, False
-    )  # ADC Chopper Clock Frequency Select    -W
-    _pga_ldo_mode = RWBit(_PGA, 6, 1, False)  # PGA Stability/Accuracy Mode (LDOMODE) RW
-    _pc_cap_enable = RWBit(
-        _PWR_CTRL, 7, 1, False
-    )  # Power_Ctrl PGA Capacitor (PGA_CAP_EN) RW
+    # Chip Revision  R-
+    _rev_id = ROBits(4, _REV_ID, 0, 1, False)  
+    # Register Reset  (RR)  RW
+    _pu_reg_reset = RWBit(_PU_CTRL, 0, 1, False)
+    # Power-Up Digital Circuit  (PUD) RW
+    _pu_digital = RWBit(_PU_CTRL, 1, 1, False)
+    # Power-Up Analog Circuit  (PUA) RW
+    _pu_analog = RWBit(_PU_CTRL, 2, 1, False)
+    # Power-Up Ready Status  (PUR) R-
+    _pu_ready = ROBit(_PU_CTRL, 3, 1, False)
+    # Power-Up Conversion Cycle Start  (CS) RW
+    _pu_cycle_start = RWBit(_PU_CTRL, 4, 1, False)
+    # Power-Up Cycle Ready  (CR) R-
+    _pu_cycle_ready = ROBit(_PU_CTRL, 5, 1, False)
+    # Power-Up AVDD Source  ADDS) RW
+    _pu_ldo_source = RWBit(_PU_CTRL, 7, 1, False)
+    # Control_1 Gain  (GAINS) RW
+    _c1_gains = RWBits(3, _CTRL1, 0, 1, False)
+    # Control_1 LDO Voltage  (VLDO) RW
+    _c1_vldo_volts = RWBits(3, _CTRL1, 3, 1, False)
+    # Control_2 Calibration Mode  (CALMOD) RW
+    _c2_cal_mode = RWBits(2, _CTRL2, 0, 1, False)
+    # Control_2 Calibration Start  (CALS) RW
+    _c2_cal_start = RWBit(_CTRL2, 2, 1, False)
+    # Control_2 Calibration Error (CAL_ERR) RW
+    _c2_cal_error = RWBit(_CTRL2, 3, 1, False)
+    # Control_2 Conversion Rate  (CRS) RW
+    _c2_conv_rate = RWBits(3, _CTRL2, 4, 1, False)
+    # Control_2 Channel Select  (CHS) RW
+    _c2_chan_select = RWBit(_CTRL2, 7, 1, False)
+    # ADC Result Output  MSByte R-
+    _adc_out_2 = ROUnaryStruct(_ADCO_B2, ">B")
+    # ADC Result Output  MidSByte R-
+    _adc_out_1 = ROUnaryStruct(_ADCO_B1, ">B")
+    # ADC Result Output  LSByte R-
+    _adc_out_0 = ROUnaryStruct(_ADCO_B0, ">B")
+    # ADC Chopper Clock Frequency Select  -W
+    _adc_chop_clock = RWBits(2, _ADC, 4, 1, False)
+    # PGA Stability/Accuracy Mode (LDOMODE) RW
+    _pga_ldo_mode = RWBit(_PGA, 6, 1, False)
+    # Power_Ctrl PGA Capacitor (PGA_CAP_EN) RW
+    _pc_cap_enable = RWBit(_PWR_CTRL, 7, 1, False)
 
     @property
     def chip_revision(self):
