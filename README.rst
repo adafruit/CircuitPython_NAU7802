@@ -69,7 +69,7 @@ Usage Example
     # Instantiate NAU7802 ADC
     nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=2)
 
-Other examples can be found in the ``examples`` folder.
+``nau7802_simpletest.py`` and other examples can be found in the ``examples`` folder.
 
 .. todo:: other examples should live in the ``examples folder`` and be included in docs/examples.rst.
 
