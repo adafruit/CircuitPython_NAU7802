@@ -1,4 +1,3 @@
-# SPDX-FileCopyrightText: 2017 Scott Shawcroft, written for Adafruit Industries
 # SPDX-FileCopyrightText: Copyright (c) 2022 JG for Cedar Grove Maker Studios
 #
 # SPDX-License-Identifier: MIT
@@ -131,7 +130,7 @@ class NAU7802:
 
     # DEFINE I2C DEVICE BITS, NYBBLES, BYTES, AND REGISTERS
     # Chip Revision  R-
-    _rev_id = ROBits(4, _REV_ID, 0, 1, False)  
+    _rev_id = ROBits(4, _REV_ID, 0, 1, False)
     # Register Reset  (RR)  RW
     _pu_reg_reset = RWBit(_PU_CTRL, 0, 1, False)
     # Power-Up Digital Circuit  (PUD) RW
