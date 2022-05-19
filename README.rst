@@ -79,6 +79,7 @@ Documentation
 
 
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-SOIC version) <https://oshpark.com/shared_projects/qFvEU3Bn>`_
+
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-DIP version) <https://oshpark.com/shared_projects/ZfryHYnc>`_
 
 .. image:: https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/glamor_shot.jpeg
