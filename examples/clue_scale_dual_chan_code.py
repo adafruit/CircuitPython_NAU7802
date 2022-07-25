@@ -1,7 +1,7 @@
 # SPDX-FileCopyrightText: 2021, 2022 Cedar Grove Maker Studios
 # SPDX-License-Identifier: MIT
 
-# clue_scale_dual_chan_code.py  2022-04-23 1.1.0  Cedar Grove Maker Studios
+# clue_scale_dual_chan_code.py  2022-07-25 1.2.0  Cedar Grove Maker Studios
 
 # Clue Scale -- dual channel version
 # Cedar Grove NAU7802 FeatherWing example
@@ -193,7 +193,7 @@ clue.play_tone(1440, 0.15)
 while True:
     nau7802.channel = 1
     value = read(SAMPLE_AVG)
-    chan_1_mass_gr = round((value - chan_1_zero) * CALIB_RATIO_1, 1)
+    chan_1_mass_gr = round(value * CALIB_RATIO_1, 1)
     chan_1_mass_oz = round(chan_1_mass_gr * 0.03527, 2)
     chan_1_value.text = "%5.1f" % (chan_1_mass_gr)
 
@@ -205,7 +205,7 @@ while True:
 
     nau7802.channel = 2
     value = read(SAMPLE_AVG)
-    chan_2_mass_gr = round((value - chan_2_zero) * CALIB_RATIO_2, 1)
+    chan_2_mass_gr = round(value * CALIB_RATIO_2, 1)
     chan_2_mass_oz = round(chan_2_mass_gr * 0.03527, 2)
     chan_2_value.text = "%5.1f" % (chan_2_mass_gr)
 
