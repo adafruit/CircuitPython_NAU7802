@@ -147,7 +147,7 @@ display.show(scale_group)
 
 
 def zero_channel():
-    # Initiate internal calibration for current channel; return raw zero offset value
+    # Initiate internal calibration for current channel
     # Use when scale is started, a new channel is selected, or to adjust for measurement drift
     # Remove weight and tare from load cell before executing
     print(
@@ -158,9 +158,8 @@ def zero_channel():
         "channel %1d calibrate.OFFSET:   %5s"
         % (nau7802.channel, nau7802.calibrate("OFFSET"))
     )
-    zero_offset = read(100)  # Read average of 100 samples to establish zero offset
     print("...channel zeroed")
-    return zero_offset
+    return
 
 
 def read(samples=100):
@@ -181,9 +180,9 @@ print("    enable NAU7802 digital and analog power: %5s" % (nau7802.enable(True)
 
 nau7802.gain = DEFAULT_GAIN  # Use default gain
 nau7802.channel = 1  # Set to second channel
-chan_1_zero = zero_channel()  # Re-calibrate and get raw zero offset value
+zero_channel()  # Re-calibrate and zero
 nau7802.channel = 2  # Set to first channel
-chan_2_zero = zero_channel()  # Re-calibrate and get raw zero offset value
+zero_channel()  # Re-calibrate and zero
 
 clue.pixel[0] = (0, 16, 0)  # Set status indicator to green
 clue.play_tone(1660, 0.15)
@@ -223,7 +222,7 @@ while True:
         clue.pixel[0] = (16, 0, 0)
         chan_1_bubble.fill = clue.RED
         nau7802.channel = 1
-        zero = zero_channel()
+        zero_channel()
         while clue.button_b:
             time.sleep(0.1)
         chan_1_bubble.fill = None
@@ -236,7 +235,7 @@ while True:
         clue.pixel[0] = (16, 0, 0)
         chan_2_bubble.fill = clue.RED
         nau7802.channel = 2
-        zero = zero_channel()
+        zero_channel()
         while clue.button_b:
             time.sleep(0.1)
         chan_2_bubble.fill = None

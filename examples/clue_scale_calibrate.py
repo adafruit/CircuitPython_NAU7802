@@ -74,14 +74,14 @@ while True:
     value = read(SAMPLE_AVG)
     print(
         "CHAN_%1.0f RAW VALUE: %7.0f  Percent of full-scale at gain x%3.0f : %3.2f: "
-        % (nau7802.channel, value, DEFAULT_GAIN, (value / ((2 ** 23) - 1)) * 100)
+        % (nau7802.channel, value, DEFAULT_GAIN, (value / ((2**23) - 1)) * 100)
     )
 
     nau7802.channel = 2
     value = read(SAMPLE_AVG)
     print(
         "CHAN_%1.0f RAW VALUE: %7.0f  Percent of full-scale at gain x%3.0f : %3.2f: "
-        % (nau7802.channel, value, DEFAULT_GAIN, (value / ((2 ** 23) - 1)) * 100)
+        % (nau7802.channel, value, DEFAULT_GAIN, (value / ((2**23) - 1)) * 100)
     )
 
     time.sleep(0.1)
