@@ -159,7 +159,6 @@ def zero_channel():
         % (nau7802.channel, nau7802.calibrate("OFFSET"))
     )
     print("...channel zeroed")
-    return
 
 
 def read(samples=100):

@@ -144,7 +144,6 @@ def zero_scale():
     # Can be used to zero the scale with tare weight
     nau7802.calibrate("INTERNAL")
     nau7802.calibrate("OFFSET")
-    return
 
 
 def read(samples=100):
