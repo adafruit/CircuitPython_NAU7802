@@ -1,12 +1,12 @@
 # SPDX-FileCopyrightText: 2021, 2022 Cedar Grove Maker Studios
 # SPDX-License-Identifier: MIT
 
-# clue_scale_dual_chan_code.py  2022-07-25 1.2.0  Cedar Grove Maker Studios
+# clue_scale_dual_chan_code.py  2022-07-26 1.2.0  Cedar Grove Maker Studios
 
 # Clue Scale -- dual channel version
 # Cedar Grove NAU7802 FeatherWing example
 
-# import clue_scale_calibrate  # uncomment to run calibration method for both channels
+# import clue_scale_dual_calibrate  # uncomment to run calibration method for both channels
 import time
 import board
 from simpleio import map_range
@@ -48,7 +48,7 @@ FONT_2 = bitmap_font.load_font("/fonts/OpenSans-9.bdf")
 
 # Define displayio background and group elements
 print("*** Define displayio background and group elements")
-bkg = displayio.OnDiskBitmap("/clue_scale_dual_chan_bkg.bmp")
+bkg = displayio.OnDiskBitmap("/clue_scale_bkg.bmp")
 _background = displayio.TileGrid(bkg, pixel_shader=bkg.pixel_shader, x=0, y=0)
 
 scale_group.append(_background)
@@ -159,6 +159,7 @@ def zero_channel():
         % (nau7802.channel, nau7802.calibrate("OFFSET"))
     )
     print("...channel zeroed")
+    return
 
 
 def read(samples=100):
@@ -222,7 +223,7 @@ while True:
         chan_1_bubble.fill = clue.RED
         nau7802.channel = 1
         zero_channel()
-        while clue.button_b:
+        while clue.button_a:
             time.sleep(0.1)
         chan_1_bubble.fill = None
         clue.pixel[0] = (0, 16, 0)
