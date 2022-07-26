@@ -174,8 +174,8 @@ while True:
     value = read(SAMPLE_AVG)
     mass_grams = round(value * CALIB_RATIO_1, 1)
     mass_ounces = round(mass_grams * 0.03527, 2)
-    grams_value.text = (f"{mass_grams:5.1f}")
-    ounces_value.text = (f"{mass_ounces:5.2f}")
+    grams_value.text = f"{mass_grams:5.1f}"
+    ounces_value.text = f"{mass_ounces:5.2f}"
 
     bubble.y = int(map_range(mass_grams, min_gr, MAX_GR, 240, 0)) - 10
     if mass_grams > MAX_GR or mass_grams < min_gr:
