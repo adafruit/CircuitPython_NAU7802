@@ -26,7 +26,7 @@ SAMPLE_AVG = 100  # Number of sample values to average
 CHAN_1_LABEL = "SHOT"  # 6 characters maximum
 CHAN_2_LABEL = "BEANS"  # 6 characters maximum
 
-# Load cell dime-weight calibration ratio; 2.268 oz / ADC_raw_measurement
+# Load cell dime-weight calibration ratio; 2.268 grams / ADC_raw_measurement
 # Obtained emperically; individual load cell dependent
 CALIB_RATIO_1 = (
     100 / 215300
