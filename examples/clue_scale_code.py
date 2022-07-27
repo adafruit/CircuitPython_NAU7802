@@ -1,12 +1,13 @@
-# SPDX-FileCopyrightText: 2021, 2022 Cedar Grove Maker Studios
+# SPDX-FileCopyrightText: 2022 Jan Goolsbey for Adafruit Industries
 # SPDX-License-Identifier: MIT
 #
-# clue_scale_single_chan_code.py  2022-07-26 1.2.0  Cedar Grove Maker Studios
+# clue_scale_code.py
+# 2022-07-27 v1.2.0
 #
-# Clue Scale -- single channel version
-# Cedar Grove NAU7802 FeatherWing example
+# Clue Scale - Single Channel Version
+# Adafruit NAU7802 Stemma breakout example
 
-# import clue_scale_single_calibrate  # uncomment to run calibration method
+# import clue_scale_calibrator  # Uncomment to run calibrator method
 
 import time
 import board
@@ -33,7 +34,7 @@ composed of the reference weight in grams divided by the raw reading. For
 example, a raw reading of 215300 for a 100 gram weight results in a calibration
 ratio of 100 / 215300. Use the clue_scale_single_calibrate method to obtain the
 raw value.
-For referency, a US dime (10-cent) coin weighs 2.268 grams."""
+FYI: A US dime coin weighs 2.268 ounces or 64.3 grams."""
 CALIB_RATIO_1 = 100 / 215300  # load cell serial#4540-02
 
 # Instantiate 24-bit load sensor ADC
@@ -50,7 +51,6 @@ FONT_2 = bitmap_font.load_font("/fonts/OpenSans-9.bdf")
 # Define displayio background and group elements
 bkg = displayio.OnDiskBitmap("/clue_scale_bkg.bmp")
 _background = displayio.TileGrid(bkg, pixel_shader=bkg.pixel_shader, x=0, y=0)
-
 scale_group.append(_background)
 
 # Place the project name on either side of the graduated scale
@@ -115,7 +115,7 @@ scale_group.append(indicator_group)
 display.show(scale_group)
 
 
-def zero_scale():
+def zero_channel():
     """Initiate internal calibration and zero the current channel. Use after
     power-up, a new channel is selected, or to adjust for measurement drift.
     Can be used to zero the scale with a tare weight."""
@@ -137,7 +137,7 @@ def read(samples=100):
 # Activate the NAU780 internal analog circuitry, set gain, and calibrate/zero
 nau7802.enable(True)
 nau7802.gain = DEFAULT_GAIN
-zero_scale()
+zero_channel()
 
 # Play "welcome" tones
 clue.play_tone(1660, 0.15)
@@ -169,7 +169,7 @@ while True:
         bubble.fill = clue.RED  # Set bubble center to red (stopped)
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 
-        zero_scale()
+        zero_channel()
 
         while clue.button_a:
             # Wait until button is released
