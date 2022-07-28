@@ -14,7 +14,7 @@ from cedargrove_nau7802 import NAU7802
 
 clue.pixel[0] = 0x202000  # Set status indicator to yellow (initializing)
 
-SAMPLE_AVG = 1000  # Number of sample values to average
+SAMPLE_AVG = 500  # Number of sample values to average
 DEFAULT_GAIN = 128  # Default gain for internal PGA
 
 # Instantiate 24-bit load sensor ADC
