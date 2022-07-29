@@ -19,8 +19,9 @@ from adafruit_bitmap_font import bitmap_font
 import displayio
 from cedargrove_nau7802 import NAU7802
 
-clue.pixel[0] = 0x202000  # Set status indicator to yellow (initializing)
+clue.pixel[0] = 0x202000  # Set status indicator to light yellow (initializing)
 
+# Set Scale Defaults
 MAX_GR = 100  # Maximum (full-scale) display range in grams
 DEFAULT_GAIN = 128  # Default gain for internal PGA
 SAMPLE_AVG = 100  # Number of sample values to average
@@ -37,10 +38,9 @@ raw value.
 FYI: A US dime coin weighs 2.268 ounces or 64.3 grams."""
 CALIB_RATIO_1 = 100 / 215300  # load cell serial#4540-02
 
-# Instantiate 24-bit load sensor ADC
+# Instantiate the Sensor and Display
 nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=1)
 
-# Instantiate display and fonts
 display = board.DISPLAY
 scale_group = displayio.Group()
 
@@ -48,11 +48,12 @@ FONT_0 = bitmap_font.load_font("/fonts/Helvetica-Bold-24.bdf")
 FONT_1 = bitmap_font.load_font("/fonts/OpenSans-16.bdf")
 FONT_2 = bitmap_font.load_font("/fonts/OpenSans-9.bdf")
 
-# Define displayio background and group elements
+# Display the Background Bitmap Image
 bkg = displayio.OnDiskBitmap("/clue_scale_bkg.bmp")
 _background = displayio.TileGrid(bkg, pixel_shader=bkg.pixel_shader, x=0, y=0)
 scale_group.append(_background)
 
+# Define and Display the Text Labels and Graphic Elements
 # Place the project name on either side of the graduated scale
 scale_name_1 = Label(FONT_1, text=SCALE_NAME_1, color=clue.CYAN)
 scale_name_1.anchor_point = (0.5, 0.5)
@@ -73,7 +74,7 @@ zero_button_label.x = 8
 zero_button_label.y = 150
 scale_group.append(zero_button_label)
 
-# Place tickmarks next to the graduated scale
+# Place tickmark labels next to the graduated scale
 for i in range(-1, 6):
     tick_value = Label(FONT_2, text=str((MAX_GR) // 5 * i), color=clue.CYAN)
     if i == -1:
@@ -115,6 +116,7 @@ scale_group.append(indicator_group)
 display.show(scale_group)
 
 
+# Helpers
 def zero_channel():
     """Initiate internal calibration and zero the current channel. Use after
     power-up, a new channel is selected, or to adjust for measurement drift.
@@ -124,7 +126,7 @@ def zero_channel():
 
 
 def read(samples=100):
-    # Read and average consecutive raw sample values; return average raw value
+    """Read and average consecutive raw samples; return averaged value."""
     sample_sum = 0
     sample_count = samples
     while sample_count > 0:
@@ -134,7 +136,8 @@ def read(samples=100):
     return int(sample_sum / samples)
 
 
-# Activate the NAU780 internal analog circuitry, set gain, and calibrate/zero
+# Activate the Sensor
+# Enable the internal analog circuitry, set gain, and calibrate/zero
 nau7802.enable(True)
 nau7802.gain = DEFAULT_GAIN
 zero_channel()
@@ -143,9 +146,10 @@ zero_channel()
 clue.play_tone(1660, 0.15)
 clue.play_tone(1440, 0.15)
 
-# Main loop: Read sample, move bubble, and display values
+# The Primary Code Loop
+# Read sensor, move bubble, and display values
 while True:
-    clue.pixel[0] = 0x002000  # Set status indicator to green (ready)
+    clue.pixel[0] = 0x002000  # Set status indicator to light green (ready)
 
     # Read the raw scale value and scale for grams and ounces
     value = read(SAMPLE_AVG)
@@ -163,16 +167,17 @@ while True:
 
     print(f" {mass_grams:5.1f} grams   {mass_ounces:5.2f} ounces")
 
+    # Check to see if the zeroing button is pressed
     if clue.button_a:
-        # Zero and recalibrate the NAU780
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        # Zero and recalibrate the sensor
+        clue.pixel[0] = 0x200000  # Set status indicator to light red (stopped)
         bubble.fill = clue.RED  # Set bubble center to red (stopped)
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 
         zero_channel()
 
         while clue.button_a:
-            # Wait until button is released
+            # Wait until the button is released
             time.sleep(0.1)
 
         clue.play_tone(1440, 0.5)  # Play "reset completed" tone
