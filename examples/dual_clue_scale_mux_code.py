@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2021, 2022 Cedar Grove Maker Studios
+# SPDX-FileCopyrightText: 2022 Jan Goolsbey for Adafruit Industries
 # SPDX-License-Identifier: MIT
 #
 # dual_clue_mux_scale_code.py
