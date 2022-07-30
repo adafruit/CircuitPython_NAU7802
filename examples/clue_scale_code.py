@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # clue_scale_code.py
-# 2022-07-27 v1.2.0
+# 2022-07-29 v1.2.0
 #
 # Clue Scale - Single Channel Version
 # Adafruit NAU7802 Stemma breakout example
@@ -19,7 +19,8 @@ from adafruit_bitmap_font import bitmap_font
 import displayio
 from cedargrove_nau7802 import NAU7802
 
-clue.pixel[0] = 0x202000  # Set status indicator to light yellow (initializing)
+clue.pixel.brightness = 0.2  # Set NeoPixel brightness
+clue.pixel[0] = clue.YELLOW  # Set status indicator to yellow (initializing)
 
 # Set Scale Defaults
 MAX_GR = 100  # Maximum (full-scale) display range in grams
@@ -149,7 +150,7 @@ clue.play_tone(1440, 0.15)
 # The Primary Code Loop
 # Read sensor, move bubble, and display values
 while True:
-    clue.pixel[0] = 0x002000  # Set status indicator to light green (ready)
+    clue.pixel[0] = clue.GREEN  # Set status indicator to green (ready)
 
     # Read the raw scale value and scale for grams and ounces
     value = read(SAMPLE_AVG)
@@ -170,7 +171,7 @@ while True:
     # Check to see if the zeroing button is pressed
     if clue.button_a:
         # Zero and recalibrate the sensor
-        clue.pixel[0] = 0x200000  # Set status indicator to light red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         bubble.fill = clue.RED  # Set bubble center to red (stopped)
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 

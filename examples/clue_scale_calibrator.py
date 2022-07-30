@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # clue_scale_calibrator.py
-# 2022-07-27 v1.1.0
+# 2022-07-29 v1.1.0
 #
 # Clue Scale Calibrator - Single Channel Version
 # Adafruit NAU7802 Stemma breakout example
@@ -12,7 +12,8 @@ import board
 from adafruit_clue import clue
 from cedargrove_nau7802 import NAU7802
 
-clue.pixel[0] = 0x202000  # Set status indicator to yellow (initializing)
+clue.pixel.brightness = 0.2  # Set NeoPixel brightness
+clue.pixel[0] = clue.YELLOW  # Set status indicator to yellow (initializing)
 
 SAMPLE_AVG = 500  # Number of sample values to average
 DEFAULT_GAIN = 128  # Default gain for internal PGA
@@ -61,7 +62,7 @@ clue.play_tone(1440, 0.15)
 
 # Main loop: Read sample and display value
 while True:
-    clue.pixel[0] = 0x002000  # Set status indicator to green
+    clue.pixel[0] = clue.GREEN  # Set status indicator to green
 
     # Read the raw value; print raw value, gain setting, and % of full-scale
     value = read(SAMPLE_AVG)
@@ -74,7 +75,7 @@ while True:
     if clue.button_a:
         # Zero and recalibrate the NAU780
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         zero_channel()
         while clue.button_a:
             # Wait until button is released

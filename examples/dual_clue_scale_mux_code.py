@@ -1,8 +1,8 @@
-# SPDX-FileCopyrightText: 2022 Jan Goolsbey for Adafruit Industries
+# SPDX-FileCopyrightText: 2021, 2022 Cedar Grove Maker Studios
 # SPDX-License-Identifier: MIT
 #
 # dual_clue_mux_scale_code.py
-# 2022-07-27 v1.2.0
+# 2022-07-29 v1.2.0
 #
 # Clue Scale - Dual NAU7802 Sensor with TCA9548A Multiplexer Version
 # Adafruit NAU7802 Stemma breakout board example
@@ -19,7 +19,8 @@ import displayio
 import adafruit_tca9548a
 from cedargrove_nau7802 import NAU7802
 
-clue.pixel[0] = 0x202000  # Set status indicator to yellow (initializing)
+clue.pixel.brightness = 0.2  # Set NeoPixel brightness
+clue.pixel[0] = clue.YELLOW  # Set status indicator to yellow (initializing)
 
 MAX_GR = 100  # Maximum (full-scale) display range in grams
 DEFAULT_GAIN = 128  # Default gain for internal PGA
@@ -175,7 +176,7 @@ clue.play_tone(1440, 0.15)
 
 # Main loop: Read samples, move bubbles, and display values
 while True:
-    clue.pixel[0] = 0x002000  # Set status indicator to green (ready)
+    clue.pixel[0] = clue.GREEN  # Set status indicator to green (ready)
 
     value = read(sensor=1, samples=SAMPLE_AVG)
     sensor_1_mass_gr = round(value * CALIB_RATIO_1, 1)
@@ -203,7 +204,7 @@ while True:
 
     if clue.button_a:
         # Zero and recalibrate sensor 1
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         sensor_1_bubble.fill = clue.RED
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 
@@ -218,7 +219,7 @@ while True:
 
     if clue.button_b:
         # Zero and recalibrate sensor 2
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         sensor_2_bubble.fill = clue.RED
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 

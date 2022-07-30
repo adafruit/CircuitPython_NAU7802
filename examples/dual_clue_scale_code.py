@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 #
 # dual_clue_scale_code.py
-# 2022-07-27 v1.2.0
+# 2022-07-29 v1.2.0
 #
 # Clue Scale - Dual Channel Version
 # Cedar Grove NAU7802 FeatherWing example
@@ -18,7 +18,8 @@ from adafruit_bitmap_font import bitmap_font
 import displayio
 from cedargrove_nau7802 import NAU7802
 
-clue.pixel[0] = 0x202000  # Set status indicator to yellow (initializing)
+clue.pixel.brightness = 0.2  # Set NeoPixel brightness
+clue.pixel[0] = clue.YELLOW  # Set status indicator to yellow (initializing)
 
 MAX_GR = 100  # Maximum (full-scale) display range in grams
 DEFAULT_GAIN = 128  # Default gain for internal PGA
@@ -158,7 +159,7 @@ clue.play_tone(1440, 0.15)
 
 # Main loop: Read samples, move bubbles, and display values
 while True:
-    clue.pixel[0] = 0x002000  # Set status indicator to green (ready)
+    clue.pixel[0] = clue.GREEN  # Set status indicator to green (ready)
 
     nau7802.channel = 1
     value = read(SAMPLE_AVG)
@@ -188,7 +189,7 @@ while True:
 
     if clue.button_a:
         # Zero and recalibrate channel 1
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         chan_1_bubble.fill = clue.RED
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 
@@ -204,7 +205,7 @@ while True:
 
     if clue.button_b:
         # Zero and recalibrate channel 2
-        clue.pixel[0] = 0x200000  # Set status indicator to red (stopped)
+        clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         chan_2_bubble.fill = clue.RED
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
 
