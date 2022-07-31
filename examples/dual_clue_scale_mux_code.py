@@ -28,8 +28,6 @@ SAMPLE_AVG = 100  # Number of sample values to average
 SENSOR_1_LABEL = "SHOT"  # 6 characters maximum
 SENSOR_2_LABEL = "BEANS"  # 6 characters maximum
 
-min_gr = (MAX_GR // 5) * -1  # Calculated minimum display value
-
 """Enter the calibration ratio for the individual load cell in-use. The ratio is
 composed of the reference weight in grams divided by the raw reading. For
 example, a raw reading of 215300 for a 100 gram weight results in a calibration
@@ -183,6 +181,7 @@ while True:
     sensor_1_mass_oz = round(sensor_1_mass_gr * 0.03527, 2)
     sensor_1_value.text = f"{sensor_1_mass_gr:5.1f}"
 
+    min_gr = (MAX_GR // 5) * -1  # Minimum display value
     sensor_1_bubble.y = int(map_range(sensor_1_mass_gr, min_gr, MAX_GR, 240, 0)) - 8
     if sensor_1_mass_gr > MAX_GR or sensor_1_mass_gr < min_gr:
         sensor_1_bubble.fill = clue.RED

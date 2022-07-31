@@ -29,15 +29,13 @@ SAMPLE_AVG = 100  # Number of sample values to average
 SCALE_NAME_1 = "COFFEE"  # 6 characters maximum
 SCALE_NAME_2 = "SCALE"  # 6 characters maximum
 
-min_gr = (MAX_GR // 5) * -1  # Calculated minimum display value
-
 """Enter the calibration ratio for the individual load cell in-use. The ratio is
 composed of the reference weight in grams divided by the raw reading. For
 example, a raw reading of 215300 for a 100 gram weight results in a calibration
 ratio of 100 / 215300. Use the clue_scale_single_calibrate method to obtain the
 raw value.
 FYI: A US dime coin weighs 2.268 ounces or 64.3 grams."""
-CALIB_RATIO_1 = 100 / 215300  # load cell serial#4540-02
+CALIB_RATIO = 100 / 215300  # load cell serial#4540-02
 
 # Instantiate the Sensor and Display
 nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=1)
@@ -154,12 +152,13 @@ while True:
 
     # Read the raw scale value and scale for grams and ounces
     value = read(SAMPLE_AVG)
-    mass_grams = round(value * CALIB_RATIO_1, 1)
+    mass_grams = round(value * CALIB_RATIO, 1)
     mass_ounces = round(mass_grams * 0.03527, 2)
     grams_value.text = f"{mass_grams:5.1f}"
     ounces_value.text = f"{mass_ounces:5.2f}"
 
     # Reposition the indicator bubble based on grams value
+    min_gr = (MAX_GR // 5) * -1  # Minimum display value
     bubble.y = int(map_range(mass_grams, min_gr, MAX_GR, 240, 0)) - 10
     if mass_grams > MAX_GR or mass_grams < min_gr:
         bubble.fill = clue.RED
