@@ -117,9 +117,11 @@ display.show(scale_group)
 
 # Helpers
 def zero_channel():
-    """Initiate internal calibration and zero the current channel. Use after
-    power-up, a new channel is selected, or to adjust for measurement drift.
-    Can be used to zero the scale with a tare weight."""
+    """Prepare internal amplifier settings and zero the current channel. Use
+    after power-up, a new channel is selected, or to adjust for measurement
+    drift. Can be used to zero the scale with a tare weight.
+    The nau7802.calibrate function used here does not calibrate the load cell,
+    but sets the NAU7802 internals to prepare for measuring input signals."""
     nau7802.calibrate("INTERNAL")
     nau7802.calibrate("OFFSET")
 
@@ -136,7 +138,7 @@ def read(samples=100):
 
 
 # Activate the Sensor
-# Enable the internal analog circuitry, set gain, and calibrate/zero
+# Enable the internal analog circuitry, set gain, and zero
 nau7802.enable(True)
 nau7802.gain = DEFAULT_GAIN
 zero_channel()
@@ -156,6 +158,7 @@ while True:
     mass_ounces = round(mass_grams * 0.03527, 2)
     grams_value.text = f"{mass_grams:5.1f}"
     ounces_value.text = f"{mass_ounces:5.2f}"
+    print(f" {mass_grams:5.1f} grams   {mass_ounces:5.2f} ounces")
 
     # Reposition the indicator bubble based on grams value
     min_gr = (MAX_GR // 5) * -1  # Minimum display value
@@ -165,11 +168,9 @@ while True:
     else:
         bubble.fill = None
 
-    print(f" {mass_grams:5.1f} grams   {mass_ounces:5.2f} ounces")
-
     # Check to see if the zeroing button is pressed
     if clue.button_a:
-        # Zero and recalibrate the sensor
+        # Zero the sensor
         clue.pixel[0] = clue.RED  # Set status indicator to red (stopped)
         bubble.fill = clue.RED  # Set bubble center to red (stopped)
         clue.play_tone(1660, 0.3)  # Play "button pressed" tone
