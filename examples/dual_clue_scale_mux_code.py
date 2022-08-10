@@ -33,7 +33,7 @@ composed of the reference weight in grams divided by the raw reading. For
 example, a raw reading of 215300 for a 100 gram weight results in a calibration
 ratio of 100 / 215300. Use the clue_scale_single_calibrate method to obtain the
 raw value.
-FYI: A US dime coin weighs 2.268 ounces or 64.3 grams."""
+FYI: A US dime coin weighs 2.268 grams or 0.079 ounces."""
 CALIB_RATIO_1 = 100 / 215300  # load cell serial#4540-01 attached to sensor 1
 CALIB_RATIO_2 = 100 / 215300  # load cell serial#4540-02 attached to sensor 2
 
