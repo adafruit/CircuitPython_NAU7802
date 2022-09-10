@@ -74,7 +74,7 @@ Usage Example
 
 Documentation
 =============
-`NAU7802 CircuitPython Driver API Class Description <https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/docs/pseudo%20readthedocs%20cedargrove_nau7802.pdf>`_
+`NAU7802 CircuitPython Driver API Class Description <https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/pseudo_readthedocs_cedargrove_nau7802.pdf>`_
 
 
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-SOIC version) <https://oshpark.com/shared_projects/qFvEU3Bn>`_
