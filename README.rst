@@ -81,11 +81,11 @@ Documentation
 
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-DIP version) <https://oshpark.com/shared_projects/ZfryHYnc>`_
 
-.. image:: https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/glamor_shot.jpeg
+.. image:: https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/glamor_shot.jpeg
 
-.. image:: https://github.com/CedarGroveStudios/NAU7802_24-bit_ADC_FeatherWing/blob/main/graphics/Clue_Scale_2020-11-25_trim.png
+.. image:: https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/Clue_Scale_2020-11-25_trim.png
 
-Needing a calibration weight? The `U.S. Mint coin specifications <https://github.com/CedarGroveStudios/Cedargrove_CircuitPython_NAU7802/blob/HEAD/CODE_OF_CONDUCT.md>`_ might have some information that could help -- if you have some spare change.
+Needing a calibration weight? The `U.S. Mint coin specifications <https://www.usmint.gov/learn/coin-and-medal-programs/coin-specifications>`_ might have some information that could help -- if you have some spare change.
 
 
 Contributing
