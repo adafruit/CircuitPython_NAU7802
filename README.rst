@@ -83,7 +83,7 @@ Documentation
 
 .. image:: https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/glamor_shot.jpeg
 
-.. image:: https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/Clue_Scale_2020-11-25_trim.png
+.. image:: https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/Clue_scale_trim.png
 
 Needing a calibration weight? The `U.S. Mint coin specifications <https://www.usmint.gov/learn/coin-and-medal-programs/coin-specifications>`_ might have some information that could help -- if you have some spare change.
 
