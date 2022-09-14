@@ -77,6 +77,9 @@ Documentation
 `NAU7802 CircuitPython Driver API Class Description <https://github.com/CedarGroveStudios/CircuitPython_NAU7802/blob/main/media/pseudo_readthedocs_cedargrove_nau7802.pdf>`_
 
 
+`Clue Coffee Scale (Adafruit Learning Guide) <https://learn.adafruit.com/clue-coffee-scale>`_
+
+
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-SOIC version) <https://oshpark.com/shared_projects/qFvEU3Bn>`_
 
 `CedarGrove NAU7802 FeatherWing OSH Park Project (16-DIP version) <https://oshpark.com/shared_projects/ZfryHYnc>`_
