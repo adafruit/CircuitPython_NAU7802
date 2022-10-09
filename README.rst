@@ -50,7 +50,7 @@ following command to install:
 
 .. code-block:: shell
 
-    circup install nau7802
+    circup install cedargrove_nau7802
 
 Or the following command to update an existing version:
 
