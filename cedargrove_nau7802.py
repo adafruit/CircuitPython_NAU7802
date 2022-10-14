@@ -44,7 +44,7 @@ from adafruit_register.i2c_bit import RWBit
 from adafruit_register.i2c_bit import ROBit
 
 __version__ = "0.0.0+auto.0"
-__repo__ = "https://github.com/CedarGroveStudios/Cedargrove_CircuitPython_NAU7802.git"
+__repo__ = "https://github.com/CedarGroveStudios/CircuitPython_NAU7802.git"
 
 # DEVICE REGISTER MAP
 _PU_CTRL = 0x00  # Power-Up Control RW
