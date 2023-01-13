@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 """
-nau7802_simpletest.py  2023-01-13 2.0.0  Cedar Grove Maker Studios
+nau7802_simpletest.py  2023-01-13 2.0.1  Cedar Grove Maker Studios
 
 Instantiates two NAU7802 channels with default gain of 128 and sample
 average count of 100.
