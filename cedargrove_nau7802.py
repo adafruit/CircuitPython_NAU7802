@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright (c) 2022 JG for Cedar Grove Maker Studios
+# SPDX-FileCopyrightText: Copyright (c) 2023 JG for Cedar Grove Maker Studios
 #
 # SPDX-License-Identifier: MIT
 """
@@ -85,8 +85,8 @@ class Gain:
 class ConversionRate:
     """ADC conversion rate settings."""
 
-    RATE_10SPS = 0x0  # 10 samples/sec; _CTRL2[6:4] = 0 (chip default)
-    RATE_20SPS = 0x1  # 20 samples/sec; _CTRL2[6:4] = 1
+    RATE_10SPS = 0x0  # 10 samples/sec; _CTRL2[6:4] = 0 (chip default, too slow)
+    RATE_20SPS = 0x1  # 20 samples/sec; _CTRL2[6:4] = 1 (driver default)
     RATE_40SPS = 0x2  # 40 samples/sec; _CTRL2[6:4] = 2
     RATE_80SPS = 0x3  # 80 samples/sec; _CTRL2[6:4] = 3
     RATE_320SPS = 0x7  # 320 samples/sec; _CTRL2[6:4] = 7
@@ -107,7 +107,7 @@ class NAU7802:
     def __init__(self, i2c_bus, address=0x2A, active_channels=1):
         """Instantiate NAU7802; LDO 3v0 volts, gain 128, 10 samples per second
         conversion rate, disabled ADC chopper clock, low ESR caps, and PGA output
-        stabilizer cap if in single channel mode. Returns True if successful."""
+        stabilizer cap if in single channel mode."""
         self.i2c_device = I2CDevice(i2c_bus, address)
         if not self.reset():
             raise RuntimeError("NAU7802 device could not be reset")
@@ -116,7 +116,7 @@ class NAU7802:
         self.ldo_voltage = "3V0"  # 3.0-volt internal analog power (AVDD)
         self._pu_ldo_source = True  # Internal analog power (AVDD)
         self.gain = 128  # X128
-        self._c2_conv_rate = ConversionRate.RATE_10SPS  # 10 SPS; default
+        self._c2_conv_rate = ConversionRate.RATE_20SPS  # Custom default
         self._adc_chop_clock = 0x3  # 0x3 = Disable ADC chopper clock
         self._pga_ldo_mode = 0x0  # 0x0 = Use low ESR capacitors
         self._act_channels = active_channels
@@ -281,7 +281,7 @@ class NAU7802:
         """Resets all device registers and enables digital system power.
         Returns the power ready status bit value: True when system is ready;
         False when system not ready for use."""
-        self._pu_reg_reset = True  # Reset all registers)
+        self._pu_reg_reset = True  # Reset all registers
         time.sleep(0.100)  # Wait 100ms; 10ms minimum
         self._pu_reg_reset = False
         self._pu_digital = True
