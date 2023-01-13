@@ -185,6 +185,7 @@ class NAU7802:
     @channel.setter
     def channel(self, chan=1):
         """Select the active channel. Valid channel numbers are 1 and 2."""
+
         if chan == 1:
             self._c2_chan_select = 0x0
         elif chan == 2 and self._act_channels == 2:
@@ -192,6 +193,7 @@ class NAU7802:
         else:
             raise ValueError("Invalid Channel Number")
 
+        time.sleep(0.500)  # Fixed settling time
         while not self._pu_cycle_ready:
             pass
 
