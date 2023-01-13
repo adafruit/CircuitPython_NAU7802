@@ -45,11 +45,11 @@ def read(sensor=1, samples=100):
     sample_count = samples
     while sample_count > 0:
         if sensor == 1:
-            if nau7802_1.available:
+            if nau7802_1.available():
                 sample_sum = sample_sum + nau7802_1.read()
                 sample_count -= 1
         elif sensor == 2:
-            if nau7802_2.available:
+            if nau7802_2.available():
                 sample_sum = sample_sum + nau7802_2.read()
                 sample_count -= 1
     return int(sample_sum / samples)

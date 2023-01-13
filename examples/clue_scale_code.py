@@ -131,7 +131,7 @@ def read(samples=100):
     sample_sum = 0
     sample_count = samples
     while sample_count > 0:
-        if nau7802.available:
+        if nau7802.available():
             sample_sum = sample_sum + nau7802.read()
             sample_count -= 1
     return int(sample_sum / samples)

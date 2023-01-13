@@ -62,11 +62,9 @@ print("READY")
 while True:
     print("=====")
     nau7802.channel = 1
-    if nau7802.available():
-        value = read_raw_value()
-        print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
+    value = read_raw_value()
+    print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
 
     nau7802.channel = 2
-    if nau7802.available():
-        value = read_raw_value()
-        print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
+    value = read_raw_value()
+    print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
