@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: MIT
 
 """
-nau7802_simpletest.py  2023-01-13 2.0.1  Cedar Grove Maker Studios
+nau7802_simpletest.py  2023-01-13 2.0.2  Cedar Grove Maker Studios
 
 Instantiates two NAU7802 channels with default gain of 128 and sample
-average count of 100.
+average count of 2.
 """
 
 import time
@@ -31,12 +31,12 @@ def zero_channel():
     print("...channel %1d zeroed" % nau7802.channel)
 
 
-def read_raw_value(samples=100):
+def read_raw_value(samples=2):
     """Read and average consecutive raw sample values. Return average raw value."""
     sample_sum = 0
     sample_count = samples
     while sample_count > 0:
-        while not nau7802.available:
+        while not nau7802.available():
             pass
         sample_sum = sample_sum + nau7802.read()
         sample_count -= 1
