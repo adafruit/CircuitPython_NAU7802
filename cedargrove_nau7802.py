@@ -85,8 +85,8 @@ class Gain:
 class ConversionRate:
     """ADC conversion rate settings."""
 
-    RATE_10SPS = 0x0  # 10 samples/sec; _CTRL2[6:4] = 0 (chip default, too slow)
-    RATE_20SPS = 0x1  # 20 samples/sec; _CTRL2[6:4] = 1 (driver default)
+    RATE_10SPS = 0x0  # 10 samples/sec; _CTRL2[6:4] = 0 (default)
+    RATE_20SPS = 0x1  # 20 samples/sec; _CTRL2[6:4] = 1
     RATE_40SPS = 0x2  # 40 samples/sec; _CTRL2[6:4] = 2
     RATE_80SPS = 0x3  # 80 samples/sec; _CTRL2[6:4] = 3
     RATE_320SPS = 0x7  # 320 samples/sec; _CTRL2[6:4] = 7
@@ -116,7 +116,7 @@ class NAU7802:
         self.ldo_voltage = "3V0"  # 3.0-volt internal analog power (AVDD)
         self._pu_ldo_source = True  # Internal analog power (AVDD)
         self.gain = 128  # X128
-        self._c2_conv_rate = ConversionRate.RATE_20SPS  # Custom default
+        self._c2_conv_rate = ConversionRate.RATE_10SPS  # 10SPS default
         self._adc_chop_clock = 0x3  # 0x3 = Disable ADC chopper clock
         self._pga_ldo_mode = 0x0  # 0x0 = Use low ESR capacitors
         self._act_channels = active_channels
@@ -184,18 +184,16 @@ class NAU7802:
 
     @channel.setter
     def channel(self, chan=1):
-        """Select the active channel. Valid channel numbers are 1 and 2.
-        Analog multiplexer settling time was emperically determined to be
-        approximately 400ms at 10SPS, 200ms at 20SPS, 100ms at 40SPS,
-        50ms at 80SPS, and 20ms at 320SPS."""
+        """Select the active channel. Valid channel numbers are 1 and 2."""
         if chan == 1:
             self._c2_chan_select = 0x0
-            time.sleep(0.400)  # 400ms settling time for 10SPS
         elif chan == 2 and self._act_channels == 2:
             self._c2_chan_select = 0x1
-            time.sleep(0.400)  # 400ms settling time for 10SPS
         else:
             raise ValueError("Invalid Channel Number")
+
+        while not self._pu_cycle_ready:
+            pass
 
     @property
     def ldo_voltage(self):
