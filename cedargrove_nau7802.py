@@ -184,7 +184,10 @@ class NAU7802:
 
     @channel.setter
     def channel(self, chan=1):
-        """Select the active channel. Valid channel numbers are 1 and 2."""
+        """Select the active channel. Valid channel numbers are 1 and 2.
+        Returns True unless a cycle ready (CR) timeout occurs."""
+
+        self.read()  # Clear the data buffer
 
         if chan == 1:
             self._c2_chan_select = 0x0
@@ -193,9 +196,12 @@ class NAU7802:
         else:
             raise ValueError("Invalid Channel Number")
 
-        time.sleep(0.500)  # Fixed settling time
+        # Check cycle ready flag; timeout after 1.0 sec
+        t0 = time.monotonic()
         while not self._pu_cycle_ready:
-            pass
+            if time.monotonic() - t0 > 1.0:
+                return False
+        return True
 
     @property
     def ldo_voltage(self):
