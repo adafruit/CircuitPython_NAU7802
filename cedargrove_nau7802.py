@@ -197,9 +197,9 @@ class NAU7802:
             raise ValueError("Invalid Channel Number")
 
         # Check cycle ready flag; timeout after 1.0 sec
-        t0 = time.monotonic()
+        start_check = time.monotonic()
         while not self._pu_cycle_ready:
-            if time.monotonic() - t0 > 1.0:
+            if time.monotonic() - start_check > 1.0:
                 return False
         return True
 
