@@ -60,6 +60,7 @@ _PGA = 0x1B  # Programmable Gain Amplifier  RW
 _PWR_CTRL = 0x1C  # Power Control  RW
 _REV_ID = 0x1F  # Chip Revision ID  R-
 
+
 # pylint: disable=too-few-public-methods
 class LDOVoltage:
     """Internal low-dropout voltage regulator settings."""
@@ -143,7 +144,7 @@ class NAU7802:
     _pu_cycle_start = RWBit(_PU_CTRL, 4, 1, False)
     # Power-Up Cycle Ready  (CR) R-
     _pu_cycle_ready = ROBit(_PU_CTRL, 5, 1, False)
-    # Power-Up AVDD Source  ADDS) RW
+    # Power-Up AVDD Source  (ADDS) RW
     _pu_ldo_source = RWBit(_PU_CTRL, 7, 1, False)
     # Control_1 Gain  (GAINS) RW
     _c1_gains = RWBits(3, _CTRL1, 0, 1, False)
@@ -179,7 +180,7 @@ class NAU7802:
 
     @property
     def channel(self):
-        "Selected channel number (1 or 2)."
+        """Selected channel number (1 or 2)."""
         return self._c2_chan_select + 1
 
     @channel.setter
