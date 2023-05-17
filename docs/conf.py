@@ -19,7 +19,7 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinxcontrib.jquery",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.napolean",
+    "sphinx.ext.napoleon",
     "sphinx.ext.todo",
 ]
 
