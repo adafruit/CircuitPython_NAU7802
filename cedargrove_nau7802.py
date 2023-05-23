@@ -22,6 +22,7 @@ Implementation Notes
 * `NAU7802 FeatherWing; OSH Park project (16-DIP version)
   <https://oshpark.com/shared_projects/ZfryHYnc>`_
 * `SparkFun Quicc Scale (single channel) <https://www.sparkfun.com/products/15242>`_
+* `Adafruit NAU78082 STEMMA QT (single channel) <https://www.adafruit.com/product/4538>`_
 
 **Software and Dependencies:**
 
