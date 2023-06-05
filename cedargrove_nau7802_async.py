@@ -114,11 +114,25 @@ class NAU7802:
         conversion rate, disabled ADC chopper clock, low ESR caps, and PGA output
         stabilizer cap if in single channel mode."""
         self = NAU7802(i2c_bus, address, active_channels)
+        await self.init_async()
+
+        return self
+
+    def __init__(self, i2c_bus, address, active_channels):
         self.i2c_device = I2CDevice(i2c_bus, address)
+        self._act_channels = active_channels
+
+        self._enable = False
+        self._pu_start = False
+        self._calib_mode = None  # Initialize for later use
+        self._adc_out = None  # Initialize for later use
+
+    async def init_async(self):
         if not await self.reset_async():
             raise RuntimeError("NAU7802 device could not be reset")
         if not await self.enable_async(True):
             raise RuntimeError("NAU7802 device could not be enabled")
+
         self.ldo_voltage = "3V0"  # 3.0-volt internal analog power (AVDD)
         self._pu_ldo_source = True  # Internal analog power (AVDD)
         self.gain = 128  # X128
@@ -131,16 +145,6 @@ class NAU7802:
         if self._act_channels == 2:
             # 0x0 = Disable PGA out stabilizer cap for dual channel use
             self._pc_cap_enable = 0x0
-
-        return self
-
-    def __init__(self, i2c_bus, address, active_channels):
-        self.i2c_device = I2CDevice(i2c_bus, address)
-        self._act_channels = active_channels
-
-        self._pu_start = False
-        self._calib_mode = None  # Initialize for later use
-        self._adc_out = None  # Initialize for later use
 
     # DEFINE I2C DEVICE BITS, NYBBLES, BYTES, AND REGISTERS
     # Chip Revision  R-
