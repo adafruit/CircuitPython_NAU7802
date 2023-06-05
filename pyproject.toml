@@ -11,13 +11,14 @@ requires = [
 
 [project]
 name = "cedargrove-nau7802"
-description = "A CircuitPython driver class for the NAU7802 24-bit ADC"
+description = "A async CircuitPython driver class for the NAU7802 24-bit ADC"
 version = "0.0.0+auto.0"
 readme = "README.rst"
 authors = [
-    {name = "Adafruit Industries", email = "circuitpython@adafruit.com"}
+    {name = "Adafruit Industries", email = "circuitpython@adafruit.com"},
+    {name = "Ben Randall", email = "veleek@gmail.com"}
 ]
-urls = {Homepage = "https://github.com/adafruit/CircuitPython_NAU7802"}
+urls = {Homepage = "https://github.com/veleek/CircuitPython_NAU7802_Async"}
 keywords = [
     "adafruit",
     "nau7802",
@@ -26,6 +27,7 @@ keywords = [
     "hardware",
     "micropython",
     "circuitpython",
+    "asyncio",
 ]
 license = {text = "MIT"}
 classifiers = [
@@ -39,7 +41,7 @@ classifiers = [
 dynamic = ["dependencies", "optional-dependencies"]
 
 [tool.setuptools]
-py-modules = ["cedargrove_nau7802"]
+py-modules = ["cedargrove_nau7802_async"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements.txt"]}
