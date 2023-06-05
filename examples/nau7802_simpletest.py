@@ -15,14 +15,10 @@ import board
 from cedargrove_nau7802_async import NAU7802
 
 
-nau7802: NAU7802 = None
-
-
-def zero_channel(channel: int = 1):
+def zero_channel(nau7802: NAU7802, channel: int = 1):
     """Initiate internal calibration for current channel.Use when scale is started,
     a new channel is selected, or to adjust for measurement drift. Remove weight
     and tare from load cell before executing."""
-    global nau7802
     nau7802.channel = channel
 
     print(
@@ -36,47 +32,41 @@ def zero_channel(channel: int = 1):
     print("...channel %1d zeroed" % nau7802.channel)
 
 
-async def read_raw_value(channel: int):
+async def read_raw_value(nau7802: NAU7802, channel: int):
     """Read an averaged value from average a given channel.  Use a larger number
     of samples to show how it interacts with other async methods.."""
-    global nau7802
     nau7802.channel = channel
     return await nau7802.read_async(samples=10)
 
 
 async def simple_test():
-    global nau7802
-    nau7802 = await NAU7802.create_async(board.I2C(), address=0x2A, active_channels=2)
-
     # Instantiate and calibrate load cell inputs
     print("*** Instantiate and calibrate load cells")
-    # Enable NAU7802 digital and analog power
-    enabled = await nau7802.enable_async(True)
-    print("Digital and analog power enabled:", enabled)
+    nau7802 = await NAU7802.create_async(board.I2C(), address=0x2A, active_channels=2)
 
     print("REMOVE WEIGHTS FROM LOAD CELLS")
     time.sleep(3)
 
-    await zero_channel(1)  # Calibrate and zero channel
-    await zero_channel(2)  # Calibrate and zero channel
+    await zero_channel(nau7802, 1)  # Calibrate and zero channel
+    await zero_channel(nau7802, 2)  # Calibrate and zero channel
 
     print("READY")
 
     ### Main loop: Read load cells and display raw values
     while True:
         print("=====")
-        value = await read_raw_value(1)
+        value = await read_raw_value(nau7802, 1)
         print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
 
-        value = await read_raw_value(2)
+        value = await read_raw_value(nau7802, 2)
         print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
 
 
 async def clock():
     while True:
-        print("{}: tick".format(datetime.now()))
+        print("{}: tick".format(datetime.datetime.now()))
         await asyncio.sleep(1)
-        print("{}: tock".format(datetime.now()))
+        print("{}: tock".format(datetime.datetime.now()))
         await asyncio.sleep(1)
 
 

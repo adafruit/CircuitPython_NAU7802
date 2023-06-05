@@ -128,6 +128,8 @@ class NAU7802:
         self._adc_out = None  # Initialize for later use
 
     async def init_async(self):
+        """Initialize NAU7802 device.  The reset and enable methods both have long running waits in them so we want
+        to do them asynchronously."""
         if not await self.reset_async():
             raise RuntimeError("NAU7802 device could not be reset")
         if not await self.enable_async(True):
