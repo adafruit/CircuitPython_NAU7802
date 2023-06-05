@@ -9,6 +9,7 @@ average count of 2.
 """
 
 import time
+import datetime
 import board
 import asyncio
 from cedargrove_nau7802_async import NAU7802
@@ -34,17 +35,11 @@ def zero_channel(channel: int = 1):
     print("...channel %1d zeroed" % nau7802.channel)
 
 
-async def read_raw_value(channel: int = 1, samples=2):
-    """Read and average consecutive raw sample values. Return average raw value."""
-    sample_sum = 0
-    sample_count = samples
-    while sample_count > 0:
-        while not nau7802.available():
-            await asyncio.sleep(0)  # Let us play nice with anything else async
-            pass
-        sample_sum = sample_sum + nau7802.read()
-        sample_count -= 1
-    return int(sample_sum / samples)
+async def read_raw_value(channel: int):
+    """Read an averaged value from average a given channel.  Use a larger number
+    of samples to show how it interacts with other async methods.."""
+    nau7802.channel = channel
+    return await nau7802.read_async(samples=10)
 
 
 async def simple_test():
@@ -70,6 +65,23 @@ async def simple_test():
 
         value = await read_raw_value(2)
         print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
+
+
+async def clock():
+    while True:
+        print("{}: tick".format(datetime.now()))
+        await asyncio.sleep(1)
+        print("{}: tock".format(datetime.now()))
+        await asyncio.sleep(1)
+
+
+async def main():
+    # Run a loop that prints current scale values in parallel with a method a
+    # ticking clock to show that they interleave.
+    await asyncio.gather(
+        simple_test(),
+        clock(),
+    )
 
 
 asyncio.run(simple_test())

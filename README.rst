@@ -24,6 +24,9 @@ async methods.  This allows the driver to play nice with other async code especi
 running operations such as reading and averaging dozens of samples.  The original driver blocks all code execution
 while waiting for data to become available while this one will yield (a zero async sleep) to allow other code to run.
 
+Since checking the availability of and reading data from the load cell is already non-blocking this is mostly useful for
+enabling non-blocking initialization, but also serves as a good example of how to read data in an async friendly way.
+
 
 Dependencies
 =============

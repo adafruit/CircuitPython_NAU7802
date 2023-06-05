@@ -287,6 +287,27 @@ class NAU7802:
         self._adc_out = value / 128  # Restore to 24-bit signed integer value
         return self._adc_out
 
+    async def read_async(self, samples=2):
+        """Read and average consecutive raw sample values. Return average raw value."""
+        sample_sum = 0
+        sample_count = samples
+        while sample_count > 0:
+            while not self.available():
+                await asyncio.sleep(0)
+            sample_sum = sample_sum + self.read()
+            sample_count -= 1
+        return int(sample_sum / samples)
+
+    async def read_values_async(self, samples=2):
+        """Read consecutive raw sample values. Return the set of raw value."""
+        samples = []
+        sample_count = samples
+        while sample_count > 0:
+            while not self.available():
+                await asyncio.sleep(0)
+            samples.append(self.read())
+        return samples
+
     async def reset_async(self):
         """Resets all device registers and enables digital system power.
         Returns the power ready status bit value: True when system is ready;
