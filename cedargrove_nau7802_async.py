@@ -107,12 +107,13 @@ class CalibrationMode:
 class NAU7802:
     """The primary NAU7802 class."""
 
+    # pylint: disable=too-many-instance-attributes
     @staticmethod
     async def create_async(i2c_bus, address=0x2A, active_channels=1):
         """Instantiate NAU7802; LDO 3v0 volts, gain 128, 10 samples per second
         conversion rate, disabled ADC chopper clock, low ESR caps, and PGA output
         stabilizer cap if in single channel mode."""
-        self = NAU7802()
+        self = NAU7802(i2c_bus, address, active_channels)
         self.i2c_device = I2CDevice(i2c_bus, address)
         if not await self.reset_async():
             raise RuntimeError("NAU7802 device could not be reset")
@@ -124,16 +125,22 @@ class NAU7802:
         self._c2_conv_rate = ConversionRate.RATE_10SPS  # 10SPS default
         self._adc_chop_clock = 0x3  # 0x3 = Disable ADC chopper clock
         self._pga_ldo_mode = 0x0  # 0x0 = Use low ESR capacitors
-        self._act_channels = active_channels
+
         # 0x1 = Enable PGA out stabilizer cap for single channel use
         self._pc_cap_enable = 0x1
         if self._act_channels == 2:
             # 0x0 = Disable PGA out stabilizer cap for dual channel use
             self._pc_cap_enable = 0x0
-        self._calib_mode = None  # Initialize for later use
-        self._adc_out = None  # Initialize for later use
 
         return self
+
+    def __init__(self, i2c_bus, address, active_channels):
+        self.i2c_device = I2CDevice(i2c_bus, address)
+        self._act_channels = active_channels
+
+        self._pu_start = False
+        self._calib_mode = None  # Initialize for later use
+        self._adc_out = None  # Initialize for later use
 
     # DEFINE I2C DEVICE BITS, NYBBLES, BYTES, AND REGISTERS
     # Chip Revision  R-

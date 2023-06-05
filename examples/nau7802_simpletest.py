@@ -10,12 +10,12 @@ average count of 2.
 
 import time
 import datetime
-import board
 import asyncio
+import board
 from cedargrove_nau7802_async import NAU7802
 
 
-nau7802 = None
+nau7802: NAU7802 = None
 
 
 def zero_channel(channel: int = 1):
