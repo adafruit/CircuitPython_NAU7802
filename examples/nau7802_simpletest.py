@@ -14,14 +14,15 @@ import board
 import asyncio
 from cedargrove_nau7802_async import NAU7802
 
-# Instantiate 24-bit load sensor ADC; two channels, default gain of 128
-nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=2)
+
+nau7802 = None
 
 
 def zero_channel(channel: int = 1):
     """Initiate internal calibration for current channel.Use when scale is started,
     a new channel is selected, or to adjust for measurement drift. Remove weight
     and tare from load cell before executing."""
+    global nau7802
     nau7802.channel = channel
 
     print(
@@ -38,11 +39,15 @@ def zero_channel(channel: int = 1):
 async def read_raw_value(channel: int):
     """Read an averaged value from average a given channel.  Use a larger number
     of samples to show how it interacts with other async methods.."""
+    global nau7802
     nau7802.channel = channel
     return await nau7802.read_async(samples=10)
 
 
 async def simple_test():
+    global nau7802
+    nau7802 = await NAU7802.create_async(board.I2C(), address=0x2A, active_channels=2)
+
     # Instantiate and calibrate load cell inputs
     print("*** Instantiate and calibrate load cells")
     # Enable NAU7802 digital and analog power

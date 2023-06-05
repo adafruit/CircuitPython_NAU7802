@@ -71,11 +71,12 @@ Usage Example
 
 .. code-block:: py
 
+    import asyncio
     import board
     from cedargrove_nau7802_async import NAU7802
 
     # Instantiate NAU7802 ADC
-    nau7802 = NAU7802(board.I2C(), address=0x2A, active_channels=2)
+    nau7802 = await NAU7802.create_async(board.I2C(), address=0x2A, active_channels=2)
 
 ``nau7802_simpletest.py`` and other examples can be found in the ``examples`` folder.
 
