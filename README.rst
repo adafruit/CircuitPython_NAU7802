@@ -58,6 +58,13 @@ Or the following command to update an existing version:
 
     circup update
 
+Installing for Blinka with Pip
+==============================
+
+.. code-block:: shell
+
+    pip3 install cedargrove-nau7802
+
 Usage Example
 =============
 
