@@ -214,7 +214,7 @@ class NAU7802:
     @ldo_voltage.setter
     def ldo_voltage(self, voltage="EXTERNAL"):
         """Select the LDO Voltage. Valid voltages are '2V4', '2V7', '3V0'."""
-        if not "LDO_" + voltage in dir(LDOVoltage):
+        if not f"LDO_{voltage}" in dir(LDOVoltage):
             raise ValueError("Invalid LDO Voltage")
         self._ldo_voltage = voltage
         if self._ldo_voltage == "2V4":
@@ -231,9 +231,9 @@ class NAU7802:
 
     @gain.setter
     def gain(self, factor=1):
-        """Select PGA gain factor. Valid values are '1, 2, 4, 8, 16, 32, 64,
+        """Select PGA gain factor. Valid values are 1, 2, 4, 8, 16, 32, 64,
         and 128."""
-        if not "GAIN_X" + str(factor) in dir(Gain):
+        if not f"GAIN_X{factor}" in dir(Gain):
             raise ValueError("Invalid Gain Factor")
         self._gain = factor
         if self._gain == 1:
@@ -252,6 +252,28 @@ class NAU7802:
             self._c1_gains = Gain.GAIN_X64
         elif self._gain == 128:
             self._c1_gains = Gain.GAIN_X128
+
+    @property
+    def poll_rate(self):
+        """ADC conversion/polling rate."""
+        return self._c2_conv_rate
+
+    @poll_rate.setter
+    def poll_rate(self, rate=0):
+        """Select polling rate. Valid values are 10, 20, 40, 80, and 320."""
+        if not f"RATE_{rate}SPS" in dir(ConversionRate):
+            raise ValueError("Invalid Conversion Rate")
+        self._rate = rate
+        if self._rate == 10:
+            self._c2_conv_rate = ConversionRate.RATE_10SPS
+        if self._rate == 20:
+            self._c2_conv_rate = ConversionRate.RATE_20SPS
+        if self._rate == 40:
+            self._c2_conv_rate = ConversionRate.RATE_40SPS
+        if self._rate == 80:
+            self._c2_conv_rate = ConversionRate.RATE_80SPS
+        if self._rate == 320:
+            self._c2_conv_rate = ConversionRate.RATE_320SPS
 
     def enable(self, power=True):
         """Enable(start) or disable(stop) the internal analog and digital
