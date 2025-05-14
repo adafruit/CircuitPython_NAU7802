@@ -9,7 +9,9 @@ average count of 2.
 """
 
 import time
+
 import board
+
 from cedargrove_nau7802 import NAU7802
 
 # Instantiate 24-bit load sensor ADC; two channels, default gain of 128
@@ -21,14 +23,16 @@ def zero_channel():
     a new channel is selected, or to adjust for measurement drift. Remove weight
     and tare from load cell before executing."""
     print(
-        "channel %1d calibrate.INTERNAL: %5s"
-        % (nau7802.channel, nau7802.calibrate("INTERNAL"))
+        "channel {0:1d} calibrate.INTERNAL: {1:5s}".format(
+            nau7802.channel, str(nau7802.calibrate("INTERNAL"))
+        )
     )
     print(
-        "channel %1d calibrate.OFFSET:   %5s"
-        % (nau7802.channel, nau7802.calibrate("OFFSET"))
+        "channel {0:1d} calibrate.OFFSET:   {1:5s}".format(
+            nau7802.channel, str(nau7802.calibrate("OFFSET"))
+        )
     )
-    print("...channel %1d zeroed" % nau7802.channel)
+    print(f"...channel {nau7802.channel:1d} zeroed")
 
 
 def read_raw_value(samples=2):
@@ -64,8 +68,8 @@ while True:
     print("=====")
     nau7802.channel = 1
     value = read_raw_value()
-    print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
+    print(f"channel {nau7802.channel:1.0f} raw value: {value:7.0f}")
 
     nau7802.channel = 2
     value = read_raw_value()
-    print("channel %1.0f raw value: %7.0f" % (nau7802.channel, value))
+    print(f"channel {nau7802.channel:1.0f} raw value: {value:7.0f}")

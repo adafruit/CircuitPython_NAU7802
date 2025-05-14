@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 #
 # SPDX-License-Identifier: MIT
 
+import datetime
 import os
 import sys
-import datetime
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -50,9 +48,7 @@ project = "Adafruit NAU7802 Library"
 creation_year = "2023"
 current_year = str(datetime.datetime.now().year)
 year_duration = (
-    current_year
-    if current_year == creation_year
-    else creation_year + " - " + current_year
+    current_year if current_year == creation_year else creation_year + " - " + current_year
 )
 copyright = year_duration + " JG"
 author = "JG"
@@ -110,7 +106,7 @@ if not on_rtd:  # only import and set the theme if we're building docs locally
 
         html_theme = "sphinx_rtd_theme"
         html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), "."]
-    except:
+    except ImportError:
         html_theme = "default"
         html_theme_path = ["."]
 else:
