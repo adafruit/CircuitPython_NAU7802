@@ -1,12 +1,10 @@
-# -*- coding: utf-8 -*-
-
 # SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
 #
 # SPDX-License-Identifier: MIT
 
+import datetime
 import os
 import sys
-import datetime
 
 sys.path.insert(0, os.path.abspath(".."))
 
@@ -23,6 +21,7 @@ extensions = [
     "sphinx.ext.todo",
 ]
 
+# TODO: Please Read!
 # Uncomment the below if you use native CircuitPython modules such as
 # digitalio, micropython and busio. List the modules you use. Without it, the
 # autodoc module docs will fail to generate with a warning.
@@ -37,6 +36,9 @@ intersphinx_mapping = {
     "CircuitPython": ("https://docs.circuitpython.org/en/latest/", None),
 }
 
+# Show the docstring from both the class and its __init__() method.
+autoclass_content = "both"
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -50,9 +52,7 @@ project = "Adafruit NAU7802 Library"
 creation_year = "2023"
 current_year = str(datetime.datetime.now().year)
 year_duration = (
-    current_year
-    if current_year == creation_year
-    else creation_year + " - " + current_year
+    current_year if current_year == creation_year else creation_year + " - " + current_year
 )
 copyright = year_duration + " JG"
 author = "JG"
@@ -76,7 +76,13 @@ language = "en"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This patterns also effect to html_static_path and html_extra_path
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", ".env", "CODE_OF_CONDUCT.md"]
+exclude_patterns = [
+    "_build",
+    "Thumbs.db",
+    ".DS_Store",
+    ".env",
+    "CODE_OF_CONDUCT.md",
+]
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
@@ -96,30 +102,27 @@ todo_include_todos = False
 # If this is True, todo emits a warning for each TODO entries. The default is False.
 todo_emit_warnings = True
 
+napoleon_numpy_docstring = False
 
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-on_rtd = os.environ.get("READTHEDOCS", None) == "True"
+import sphinx_rtd_theme
 
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    try:
-        import sphinx_rtd_theme
-
-        html_theme = "sphinx_rtd_theme"
-        html_theme_path = [sphinx_rtd_theme.get_html_theme_path(), "."]
-    except:
-        html_theme = "default"
-        html_theme_path = ["."]
-else:
-    html_theme_path = ["."]
+html_theme = "sphinx_rtd_theme"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+# The name of an image file (relative to this directory) to use as a favicon of
+# the docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
+# pixels large.
+#
+html_favicon = "_static/favicon.ico"
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = "AdafruitNAU7802Librarydoc"
@@ -128,16 +131,12 @@ htmlhelp_basename = "AdafruitNAU7802Librarydoc"
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
-    #
     # 'papersize': 'letterpaper',
     # The font size ('10pt', '11pt' or '12pt').
-    #
     # 'pointsize': '10pt',
     # Additional stuff for the LaTeX preamble.
-    #
     # 'preamble': '',
     # Latex figure (float) alignment
-    #
     # 'figure_align': 'htbp',
 }
 
@@ -165,7 +164,7 @@ man_pages = [
         "Adafruit NAU7802 Library Documentation",
         [author],
         1,
-    )
+    ),
 ]
 
 # -- Options for Texinfo output -------------------------------------------

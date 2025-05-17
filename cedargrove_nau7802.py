@@ -33,17 +33,15 @@ Implementation Notes
 * Adafruit's Register library: https://github.com/adafruit/Adafruit_CircuitPython_Register
 """
 
-import time
 import struct
+import time
 
 from adafruit_bus_device.i2c_device import I2CDevice
-from adafruit_register.i2c_struct import ROUnaryStruct
+from adafruit_register.i2c_bit import ROBit, RWBit
 
 # from adafruit_register.i2c_struct   import UnaryStruct
-from adafruit_register.i2c_bits import RWBits
-from adafruit_register.i2c_bits import ROBits
-from adafruit_register.i2c_bit import RWBit
-from adafruit_register.i2c_bit import ROBit
+from adafruit_register.i2c_bits import ROBits, RWBits
+from adafruit_register.i2c_struct import ROUnaryStruct
 
 __version__ = "0.0.0+auto.0"
 __repo__ = "https://github.com/CedarGroveStudios/CircuitPython_NAU7802.git"
@@ -63,7 +61,6 @@ _PWR_CTRL = 0x1C  # Power Control  RW
 _REV_ID = 0x1F  # Chip Revision ID  R-
 
 
-# pylint: disable=too-few-public-methods
 class LDOVoltage:
     """Internal low-dropout voltage regulator settings."""
 
@@ -106,7 +103,6 @@ class CalibrationMode:
 class NAU7802:
     """The primary NAU7802 class."""
 
-    # pylint: disable=too-many-instance-attributes
     def __init__(self, i2c_bus, address=0x2A, active_channels=1):
         """Instantiate NAU7802; LDO 3v0 volts, gain 128, 10 samples per second
         conversion rate, disabled ADC chopper clock, low ESR caps, and PGA output
