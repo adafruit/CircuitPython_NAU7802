@@ -1,7 +1,9 @@
 Introduction
 ============
 
-
+.. image:: https://readthedocs.org/projects/circuitpython-nau7802/badge/?version=latest
+    :target: https://docs.circuitpython.org/projects/nau7802/en/latest/
+    :alt: Documentation Status
 
 
 .. image:: https://img.shields.io/discord/327254708534116352.svg
