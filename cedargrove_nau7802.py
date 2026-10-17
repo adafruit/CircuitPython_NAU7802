@@ -251,8 +251,14 @@ class NAU7802:
 
     @property
     def poll_rate(self):
-        """ADC conversion/polling rate."""
-        return self._c2_conv_rate
+        """ADC conversion/polling rate in samples per second."""
+        return {
+            ConversionRate.RATE_10SPS: 10,
+            ConversionRate.RATE_20SPS: 20,
+            ConversionRate.RATE_40SPS: 40,
+            ConversionRate.RATE_80SPS: 80,
+            ConversionRate.RATE_320SPS: 320,
+        }[self._c2_conv_rate]
 
     @poll_rate.setter
     def poll_rate(self, rate=0):
@@ -280,7 +286,7 @@ class NAU7802:
             self._pu_analog = True
             self._pu_digital = True
             time.sleep(0.750)  # Wait 750ms; minimum 400ms
-            self._pu_start = True  # Start acquisition system cycling
+            self._pu_cycle_start = True  # Start acquisition system cycling
             return self._pu_ready
         self._pu_analog = False
         self._pu_digital = False
@@ -315,9 +321,11 @@ class NAU7802:
         time.sleep(0.750)  # Wait 750ms; 400ms minimum
         return self._pu_ready
 
-    def calibrate(self, mode="INTERNAL"):
+    def calibrate(self, mode="INTERNAL", timeout=5.0):
         """Perform the calibration procedure. Valid calibration modes
-        are 'INTERNAL', 'OFFSET', and 'GAIN'. True if successful."""
+        are 'INTERNAL', 'OFFSET', and 'GAIN'. True if successful; False if
+        calibration failed or did not complete within timeout seconds. Use a
+        timeout of -1 to wait forever."""
         if not mode in dir(CalibrationMode):
             raise ValueError("Invalid Calibration Mode")
         self._calib_mode = mode
@@ -328,6 +336,9 @@ class NAU7802:
         elif self._calib_mode == "GAIN":  # External PGA full-scale gain setting
             self._c2_cal_mode = CalibrationMode.GAIN
         self._c2_cal_start = True
+        start_check = time.monotonic()
         while self._c2_cal_start:
+            if timeout >= 0 and time.monotonic() - start_check >= timeout:
+                return False
             time.sleep(0.010)  # 10ms
         return not self._c2_cal_error
